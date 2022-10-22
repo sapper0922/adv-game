@@ -3,7 +3,7 @@ import javax.swing.JFrame;
 
 public class Game {
     public static void main(String[] args) throws Exception {
-        
+        //Hellooo
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(true);
