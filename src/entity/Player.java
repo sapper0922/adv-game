@@ -33,14 +33,14 @@ public class Player extends Entity{
 
         try {
 
-            up1 = ImageIO.read(new FileInputStream("//src//player//charater1 (1).png"));
-            up2 = ImageIO.read(new FileInputStream("/src/player/charater2 (1).png"));
-            down1 = ImageIO.read(new FileInputStream("/src/player/charater3 (1).png"));
-            down2 = ImageIO.read(new FileInputStream("/src/player/charater4 (1).png"));
-            left1 = ImageIO.read(new FileInputStream("/src/player/charater5 (1).png"));
-            left2 = ImageIO.read(new FileInputStream("/src/player/charater6 (1).png"));
-            right1 = ImageIO.read(new FileInputStream("/src/player/charater7 (1).png"));
-            right2 = ImageIO.read(new FileInputStream("/src/player/charater8 (1).png"));
+            up1 = ImageIO.read(new FileInputStream("res/player/character7 (1).png"));
+            up2 = ImageIO.read(new FileInputStream("res/player/character2 (1).png"));
+            down1 = ImageIO.read(new FileInputStream("res/player/character1(1).png"));
+            down2 = ImageIO.read(new FileInputStream("res/player/character4 (1).png"));
+            left1 = ImageIO.read(new FileInputStream("res/player/character5 (1).png"));
+            left2 = ImageIO.read(new FileInputStream("res/player/character6 (1).png"));
+            right1 = ImageIO.read(new FileInputStream("res/player/character7 (1).png"));
+            right2 = ImageIO.read(new FileInputStream("res/player/character8 (1).png"));
 
         }catch(IOException e) {
             e.printStackTrace();
