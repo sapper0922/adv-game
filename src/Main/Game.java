@@ -7,7 +7,7 @@ public class Game {
         //Hellooo
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(true);
+        window.setResizable(false);
         window.setTitle("2d Adventure.");
 
         GamePanel gamePanel = new GamePanel();
