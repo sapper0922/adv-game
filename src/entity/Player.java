@@ -3,6 +3,7 @@ package entity;
 import Main.GamePanel;
 import Main.KeyHandler;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -23,6 +24,9 @@ public class Player extends Entity{
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        //Size of Collision Box in pixels and location
+        solidArea = new Rectangle(8, 16, 32, 32);
 
         setDefaultValues();
         getPlayerImage();
@@ -58,21 +62,41 @@ public class Player extends Entity{
         if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
             if (keyH.upPressed == true) {
                 direction = "up";
-                worldY -= speed;
             }
             else if(keyH.downPressed == true) {
                 direction = "down";
-                worldY += speed;
             }
             else if(keyH.leftPressed == true) {
                 direction = "left";
-                worldX -= speed;
             }
             else if(keyH.rightPressed == true) {
                 direction = "right";
-                worldX += speed;
             }
+
+            //Check Tile Collision
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
     
+            //If Collision is false, Player can move
+            if(collisionOn == false) {
+
+                switch(direction) {
+                    case "up":
+                    worldY -= speed;
+                        break;
+                    case "down":
+                    worldY += speed;
+                        break;
+                    case "left":
+                    worldX -= speed;
+                        break;
+                    case "right":
+                    worldX += speed;
+                        break;
+                }
+
+            }
+
             spriteCounter++;
             if(spriteCounter > 12) {
                 if(spriteNum == 1) {
