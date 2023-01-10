@@ -29,6 +29,8 @@ public class Player extends Entity{
         solidArea = new Rectangle(8, 16, 32, 32);
 
         setDefaultValues();
+
+        //Calls getPlayerImage function
         getPlayerImage();
 
     }
@@ -36,10 +38,15 @@ public class Player extends Entity{
 
         worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 21;
+
+        //how fast the player character moves in pixels
         speed = 4;
+
         direction = "down";
 
     }
+
+    //Images for up1, up2, down1, down2, left1, left2, right1, right2.
     public void getPlayerImage() {
 
         try {
@@ -59,6 +66,7 @@ public class Player extends Entity{
     }
     public void update() {
         
+        //This if statement checks if the animiation of the player only happenes when you are pushing w, a, s, d.
         if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
             if (keyH.upPressed == true) {
                 direction = "up";
@@ -98,6 +106,8 @@ public class Player extends Entity{
             }
 
             spriteCounter++;
+            
+            //Every 12 framces the animation changes
             if(spriteCounter > 12) {
                 if(spriteNum == 1) {
                     spriteNum = 2;
@@ -114,6 +124,7 @@ public class Player extends Entity{
 //        g2.setColor(Color.white);
 //        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 
+        //create variable image with BufferedImage
         BufferedImage image = null;
 
         switch(direction) {

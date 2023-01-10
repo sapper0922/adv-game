@@ -8,7 +8,10 @@ public class Entity {
     public int worldX, worldY;
     public int speed;
 
+    // list of images
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+
+    //Variable called direction
     public String direction;
 
     public int spriteCounter = 0;
