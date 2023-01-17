@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 import javax.swing.JFrame;
 
@@ -6,6 +6,7 @@ public class Game {
     public static void main(String[] args) throws Exception {
         //Hellooo
         JFrame window = new JFrame();
+
         //Able to close the window clicking the X button on the top right corner
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -29,6 +30,9 @@ public class Game {
 
         //Set the Window's visibility
         window.setVisible(true);
+
+        //Calls function setupGame in GamePanel class
+        gamePanel.setupGame();
 
         //Calls function startGameThread in gamePanel
         gamePanel.startGameThread();

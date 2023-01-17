@@ -1,7 +1,7 @@
 package entity;
 
-import Main.GamePanel;
-import Main.KeyHandler;
+import main.GamePanel;
+import main.KeyHandler;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.FileInputStream;
@@ -22,12 +22,14 @@ public class Player extends Entity{
         this.gp = gp;
         this.keyH = keyH;
 
+        //place player at the center of the screen
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         //Size of Collision Box in pixels and location
-        solidArea = new Rectangle(8, 16, 32, 32);
+        solidArea = new Rectangle(8, 8, 32, 32);
 
+        //Calls setDefaultValues function
         setDefaultValues();
 
         //Calls getPlayerImage function
@@ -42,6 +44,7 @@ public class Player extends Entity{
         //how fast the player character moves in pixels
         speed = 4;
 
+        //direction the player is facing
         direction = "down";
 
     }
@@ -68,15 +71,19 @@ public class Player extends Entity{
         
         //This if statement checks if the animiation of the player only happenes when you are pushing w, a, s, d.
         if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
+            //if W key pressed the direction will be set to up.
             if (keyH.upPressed == true) {
                 direction = "up";
             }
+            //if S key pressed the direction will be set to down.
             else if(keyH.downPressed == true) {
                 direction = "down";
             }
+            //if A key pressed the direction will be set to left.
             else if(keyH.leftPressed == true) {
                 direction = "left";
             }
+            //if D key pressed the direction will be set to right.
             else if(keyH.rightPressed == true) {
                 direction = "right";
             }
@@ -127,6 +134,7 @@ public class Player extends Entity{
         //create variable image with BufferedImage
         BufferedImage image = null;
 
+        //if direction is up the image will change from up1 and up2
         switch(direction) {
         case "up":
             if(spriteNum == 1) {
@@ -136,6 +144,7 @@ public class Player extends Entity{
                 image = up2;
             }
             break;
+        //if direction is down the image will change from down2 and down2
         case "down":
             if(spriteNum == 1) {
                 image = down1;
@@ -144,6 +153,7 @@ public class Player extends Entity{
                 image = down2;
             }
             break;
+        //if direction is left the image will change from left1 and left2
         case "left":
             if(spriteNum == 1) {
                 image = left1;
@@ -152,6 +162,7 @@ public class Player extends Entity{
                 image = left2;
             }
             break;
+        //if direction is right the image will change from right1 and right2
         case "right":
             if(spriteNum == 1) {
                 image = right1;
@@ -161,6 +172,7 @@ public class Player extends Entity{
             }
             break;
         }
+        //draws image on the screen, since screenX and screenY is final variable he doesn't change location on the screen(final variable cannot be changed unless you change it in the class)
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
 

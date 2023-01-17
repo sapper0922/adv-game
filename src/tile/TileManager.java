@@ -7,20 +7,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
-import Main.GamePanel;
+import main.GamePanel;
 import java.awt.Graphics2D;
 
 public class TileManager {
     
+    //variable with GamePanel stuff
     GamePanel gp;
+
+    //array called tile
     public Tile[] tile;
+
+    //array called mapTileNum
     public int mapTileNum[][];
 
     public TileManager (GamePanel gp) {
 
         this.gp = gp;
+        tile = new Tile[10]; 
 
-        tile = new Tile[10];
+        //instantiate mapTileNum
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
@@ -67,10 +73,12 @@ public class TileManager {
         System.out.println("Image loading finished");
 
     }
+
+    //loadMap will read a text in filePath and populate the mapTileNum matrix with what is in the file
     public void loadMap(String filePath) {
 
         try {
-            //
+            //read a text file
             InputStream is = new FileInputStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
@@ -79,10 +87,12 @@ public class TileManager {
 
             while(col < gp.maxWorldCol && row < gp.maxWorldRow) {
 
+                //read a line of text in filePath
                 String Line = br.readLine();
 
                 while(col < gp.maxWorldCol) {
 
+                    //splits a string with the space delimiter
                     String numbers[] = Line.split(" ");
 
                     int num = Integer.parseInt(numbers[col]);
@@ -95,6 +105,7 @@ public class TileManager {
                     row++;
                 }
             }
+            //close the br because you don't need them anymore
             br.close();
 
         }catch(Exception e) {
@@ -102,13 +113,15 @@ public class TileManager {
         }
 
     }
+
+    //draw the mapTileNum on the screen
     public void draw(Graphics2D g2) {
 
         int worldCol = 0;
         int worldRow = 0;
 
         while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
-
+ 
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
@@ -122,6 +135,7 @@ public class TileManager {
                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
+                    //Draw Tiles on the screen
                     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
                 }

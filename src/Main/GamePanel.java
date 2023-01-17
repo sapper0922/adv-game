@@ -1,7 +1,8 @@
-package Main;
+package main;
 
 import javax.swing.JPanel;
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 import java.awt.Dimension;
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable{
     //FPS
     int FPS = 60;
 
+    //Instantiate tileM class
     TileManager tileM = new TileManager(this);
 
     //Make variable keyH with KeyHandler
@@ -51,10 +53,17 @@ public class GamePanel extends JPanel implements Runnable{
     //Creates a variable called gameThread that has all the functions the Thread has
     Thread gameThread;
 
+    //Instantiate CollisionChecker class
     public CollisionChecker cChecker = new CollisionChecker(this);
+
+    //Instantiate AssetSetter class
+    public AssetSetter aSetter = new AssetSetter(this);
 
     //Instantiate player class
     public Player player = new Player(this,keyH);
+
+    //Instantiate SuperObject class
+    public SuperObject obj[] = new SuperObject[10];
 
     public GamePanel() {
 
@@ -72,6 +81,13 @@ public class GamePanel extends JPanel implements Runnable{
 
         //GamePanel can be focused to receive key inputs
         this.setFocusable(true);
+ 
+    }
+
+    //calls setObject function in aSetter class
+    public void setupGame() {
+
+        aSetter.setObject();
 
     }
 
@@ -96,6 +112,7 @@ public class GamePanel extends JPanel implements Runnable{
         long timer = 0;
         int drawCount = 0;
 
+        
         while(gameThread != null) {
 
             //Gets current time in Nanoseconds(1,000,000,000 Nanoseconds = 1 Second)
@@ -146,7 +163,17 @@ public class GamePanel extends JPanel implements Runnable{
         //Convert Graphics class to Graphics2D because Graphics2D has more functions like Geometry, Coordinates, Color, and Text
         Graphics2D g2 = (Graphics2D)g;
 
+        //draw everything from TileManager class
         tileM.draw(g2);
+
+        //draw everything from Object class
+        for(int i = 0; i < obj.length; i++) {
+            if(obj[i] != null) {
+                obj[i].draw(g2, this);
+            }
+        }
+
+        //draw everything from Player class
         player.draw(g2);
 
         //Dispose of this graphics context
