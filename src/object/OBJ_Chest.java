@@ -1,0 +1,22 @@
+package object;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+//extends SuperObject to this class
+public class OBJ_Chest extends SuperObject{
+    
+    //try to make of chest image and catch is printStackTrace
+    public OBJ_Chest() {
+
+        name = "Chest";
+        try {
+            image = ImageIO.read(new FileInputStream("res/objects/chest (OLD).png"));
+
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
