@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+//A subclass of SuperObject used to make Chest
 //extends SuperObject to this class
 public class OBJ_Chest extends SuperObject{
     

@@ -4,6 +4,7 @@ import object.OBJ_Chest;
 import object.OBJ_Door;
 import object.OBJ_Key;
 
+//Makes Keys, Doors, and Chests than places them down in the map
 public class AssetSetter {
     
     GamePanel gp;

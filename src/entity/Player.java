@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
@@ -16,6 +17,8 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
+
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -27,7 +30,13 @@ public class Player extends Entity{
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         //Size of Collision Box in pixels and location
-        solidArea = new Rectangle(8, 8, 32, 32);
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 8;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         //Calls setDefaultValues function
         setDefaultValues();
@@ -91,6 +100,10 @@ public class Player extends Entity{
             //Check Tile Collision
             collisionOn = false;
             gp.cChecker.checkTile(this);
+
+            //Check Object Collision
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
     
             //If Collision is false, Player can move
             if(collisionOn == false) {
@@ -126,6 +139,33 @@ public class Player extends Entity{
             }
         }
     }
+
+    //checks if player picked up a key and uses the key
+    public void pickUpObject(int i) {
+        if(i != 999) {
+
+            //used for switch statement below
+            String objectName = gp.obj[i].name;
+
+            switch(objectName) {
+            //if case is Key(or if touched), than the variable hasKey will increase by 1
+            case "Key":
+                hasKey++;
+                gp.obj[i] = null;
+                System.out.println("Key:"+hasKey);
+                break;
+            //if case is Door than it checks if hasKey is greater than one and if it is it will decrease hasKey by 1
+            case "Door":
+                if(hasKey > 0) {
+                    gp.obj[i] = null;
+                    hasKey--;
+                }
+                System.out.println("Key:"+hasKey);
+                break;    
+            }
+        }
+    }
+
     public void draw(Graphics2D g2) {
 
 //        g2.setColor(Color.white);

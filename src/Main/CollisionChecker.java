@@ -83,5 +83,96 @@ public class CollisionChecker {
             break;
         }
     }
+
+    //check if collision is happening with object
+    public int checkObject(Entity entity, boolean player) {
+
+        int index = 999;
+
+        for(int i = 0; i < gp.obj.length; i++) {
+
+            if(gp.obj[i] != null) {
+
+                //Get entity's solid area position
+                entity.solidArea.x = entity.worldX + entity.solidArea.x;
+                entity.solidArea.y = entity.worldY + entity.solidArea.y;
+                
+                //get the object's solid areas position
+                gp.obj[i].solidArea.x = gp.obj[i].worldX + gp.obj[i].solidArea.x;
+                gp.obj[i].solidArea.y = gp.obj[i].worldY + gp.obj[i].solidArea.y;
+
+                //checks where entity or player will be after they move
+                switch(entity.direction) {
+                    case "up":
+                        entity.solidArea.y -= entity.speed;
+                        //checks if rectangle collides with another rectangle
+                        if(entity.solidArea.intersects(gp.obj[i].solidArea)){
+                            //checks if this specific tile has collision
+                            if(gp.obj[i].collision == true) {
+                                //sets collisionOn to true which means the player can't move
+                                entity.collisionOn = true;
+                            }
+                            //checks if the player is picking up an object instead of an NPC or a Monster
+                            if(player == true) {
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "down":
+                        entity.solidArea.y += entity.speed;
+                        if(entity.solidArea.intersects(gp.obj[i].solidArea)){
+                            //checks if this specific tile has collision
+                            if(gp.obj[i].collision == true) {
+                                //sets collisionOn to true which means the player can't move
+                                entity.collisionOn = true;
+                            }
+                            //checks if the player is picking up an object instead of an NPC or a Monster
+                            if(player == true) {
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "left":
+                        entity.solidArea.x -= entity.speed;
+                        if(entity.solidArea.intersects(gp.obj[i].solidArea)){
+                            //checks if this specific tile has collision
+                            if(gp.obj[i].collision == true) {
+                                //sets collisionOn to true which means the player can't move
+                                entity.collisionOn = true;
+                            }
+                            //checks if the player is picking up an object instead of an NPC or a Monster
+                            if(player == true) {
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "right":
+                        entity.solidArea.x += entity.speed;
+                        if(entity.solidArea.intersects(gp.obj[i].solidArea)){
+                            //checks if this specific tile has collision
+                            if(gp.obj[i].collision == true) {
+                                //sets collisionOn to true which means the player can't move
+                                entity.collisionOn = true;
+                            }
+                            //checks if the player is picking up an object instead of an NPC or a Monster
+                            if(player == true) {
+                                index = i;
+                            }
+                        }
+                        break;   
+                }
+                //reseting these values because these variable will keep increasing
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                gp.obj[i].solidArea.x = gp.obj[i].solidAreaDefaultX;
+                gp.obj[i].solidArea.y = gp.obj[i].solidAreaDefaultY;
+            }
+
+        }
+
+        //since this is an int function, I need to return an Integer
+        return index;
+
+    }
     
 }

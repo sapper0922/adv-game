@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+//A subclass of SuperObject used to make Door
 //extends SuperObject to this class
 public class OBJ_Door extends SuperObject{
     
@@ -18,6 +19,7 @@ public class OBJ_Door extends SuperObject{
         }catch(IOException e) {
             e.printStackTrace();
         }
+        collision = true;
     }
 
 }
