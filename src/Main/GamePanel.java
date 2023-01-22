@@ -40,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxWorldRow = 50;
 
     //FPS
-    int FPS = 1000000000;
+    int FPS = 60;
 
     //Instantiate tileM class
     TileManager tileM = new TileManager(this);
@@ -49,13 +49,16 @@ public class GamePanel extends JPanel implements Runnable{
     KeyHandler keyH = new KeyHandler();
 
     //Instantiate Sound class
-    Sound sound = new Sound();
+    Sound music = new Sound();
+    Sound se = new Sound();
 
     //Instantiate CollisionChecker class
     public CollisionChecker cChecker = new CollisionChecker(this);
 
     //Instantiate AssetSetter class
     public AssetSetter aSetter = new AssetSetter(this);
+
+    public UI ui = new UI(this);
 
     //Creates a variable called gameThread that has all the functions the Thread has
     Thread gameThread;
@@ -179,26 +182,29 @@ public class GamePanel extends JPanel implements Runnable{
         //draw everything from Player class
         player.draw(g2);
 
+        //Draws the ui on the screen
+        ui.draw(g2);
+
         //Dispose of this graphics context
         g2.dispose();
 
     }
     public void playMusic(int i) {
 
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
+        music.setFile(i);
+        music.play();
+        music.loop();
 
     }
     public void stopMusic() {
 
-        sound.stop();
+        music.stop();
 
     }
     public void playSE(int i) {
 
-        sound.setFile(i);
-        sound.play();
+        se.setFile(i);
+        se.play();
 
     }
 }

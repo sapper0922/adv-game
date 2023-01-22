@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
@@ -12,15 +13,20 @@ public class Sound {
     URL soundURL[] = new URL[30];
 
     /**
-     * 
+     * This function has the sound files in an array
      */
     public Sound() {
 
         soundURL[0] = getClass().getResource("/res/sound/BlueBoyAdventure.wav");
-        soundURL[1] = getClass().getResource("res/sound/coin.wav");
-        soundURL[2] = getClass().getResource("res/sound/powerup.wav");
-        soundURL[3] = getClass().getResource("res/sound/unlock.wav");
-        soundURL[4] = getClass().getResource("res/sound/fanfare.wav");
+        soundURL[1] = getClass().getResource("/res/sound/coin.wav");
+        soundURL[2] = getClass().getResource("/res/sound/powerup.wav");
+        soundURL[3] = getClass().getResource("/res/sound/unlock.wav");
+        soundURL[4] = getClass().getResource("/res/sound/fanfare.wav");
+
+        System.out.println(getClass().getResource("/res/sound/BlueBoyAdventure.wav"));
+        
+        System.out.println(new File(".").getAbsolutePath());
+
     }
 
     //basic Audio functions
@@ -29,6 +35,7 @@ public class Sound {
         try {
 
             //This is a format to open an audio file in java
+//            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
 //            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();

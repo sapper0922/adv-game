@@ -1,14 +1,14 @@
 package entity;
 
-import main.GamePanel;
-import main.KeyHandler;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.io.FileInputStream;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+
+import main.GamePanel;
+import main.KeyHandler;
 
 public class Player extends Entity{
     
@@ -17,7 +17,7 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
+    public int hasKey = 0;
 
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -63,14 +63,14 @@ public class Player extends Entity{
 
         try {
 
-            up1 = ImageIO.read(new FileInputStream("res/player/Adventure Player-7.png"));
-            up2 = ImageIO.read(new FileInputStream("res/player/Adventure Player-8.png"));
-            down1 = ImageIO.read(new FileInputStream("res/player/Adventure Player-1.png"));
-            down2 = ImageIO.read(new FileInputStream("res/player/Adventure Player-2.png"));
-            left1 = ImageIO.read(new FileInputStream("res/player/Adventure Player-3.png"));
-            left2 = ImageIO.read(new FileInputStream("res/player/Adventure Player-4.png"));
-            right1 = ImageIO.read(new FileInputStream("res/player/Adventure Player-5.png"));
-            right2 = ImageIO.read(new FileInputStream("res/player/Adventure Player-6.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-7.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-8.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-3.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-4.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-5.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-6.png"));
 
         }catch(IOException e) {
             e.printStackTrace();
@@ -150,21 +150,34 @@ public class Player extends Entity{
             switch(objectName) {
             //if case is Key(or if touched), than the variable hasKey will increase by 1
             case "Key":
+                gp.playSE(1);
                 hasKey++;
                 gp.obj[i] = null;
-                System.out.println("Key:"+hasKey);
+                gp.ui.showMessage("You got a key!");
                 break;
             //if case is Door than it checks if hasKey is greater than one and if it is it will decrease hasKey by 1
             case "Door":
                 if(hasKey > 0) {
+                    gp.playSE(3);
                     gp.obj[i] = null;
                     hasKey--;
+                    gp.ui.showMessage("You opened the door!");
+                }
+                else {
+                    gp.ui.showMessage("You need a key!");
                 }
                 System.out.println("Key:"+hasKey);
                 break; 
             case "Boots":
+                gp.playSE(2);
                 speed += 2;
                 gp.obj[i] = null;
+                gp.ui.showMessage("Speed Up!");
+                break;
+            case "Chest":
+                gp.ui.gameFinished = true;
+                gp.stopMusic();
+                gp.playSE(4);
                 break;
             }
         }
