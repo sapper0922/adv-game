@@ -30,7 +30,7 @@ public class UI {
         arial_80B = new Font("Arial", Font.BOLD, 80);
         
         //makes a variable called key which has all the components of OBJ_Key class
-        OBJ_Key key = new OBJ_Key();
+        OBJ_Key key = new OBJ_Key(gp);
 
         //BufferedImage keyImage takes the image out of OBJ_Key
         keyImage = key.image;

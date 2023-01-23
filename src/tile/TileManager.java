@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import main.UtilityTool;
+
 import java.awt.Graphics2D;
 
 public class TileManager {
@@ -37,40 +39,32 @@ public class TileManager {
 
         System.out.println("Image loading started");
 
+        setup(0, "grass", false);
+        setup(1, "wall", true);
+        setup(2, "water", true);
+        setup(3, "earth", false);
+        setup(4, "tree", true);
+        setup(5, "sand", false);
+
+        System.out.println("Image loading finished");
+
+    }
+
+
+    public void setup(int index, String imageName, boolean collision) {
+
+        UtilityTool uTool = new UtilityTool();
+
         try {
 
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/grass.png"));
-
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/wall.png"));
-            
-            //This Tile has collision
-            tile[1].collision = true;
-
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/water.png"));
-            
-            //This Tile has collision
-            tile[2].collision = true;
-
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/earth.png"));
-
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tree.png"));
-            
-            //This tile has collision
-            tile[4].collision = true;
-
-            tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/sand.png"));
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/" + imageName +".png"));
+            tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+            tile[index].collision = collision;
 
         }catch(IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Image loading finished");
 
     }
 
@@ -136,7 +130,7 @@ public class TileManager {
                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
                     //Draw Tiles on the screen
-                    g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(tile[tileNum].image, screenX, screenY, null);
 
                 }
 

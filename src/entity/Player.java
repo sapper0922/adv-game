@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 public class Player extends Entity{
     
@@ -61,21 +62,34 @@ public class Player extends Entity{
     //Images for up1, up2, down1, down2, left1, left2, right1, right2.
     public void getPlayerImage() {
 
+        up1 = setup("Adventure Player-7");
+        up2 = setup("Adventure Player-8");
+        down1 = setup("Adventure Player-1");
+        down2 = setup("Adventure Player-2");
+        left1 = setup("Adventure Player-3");
+        left2 = setup("Adventure Player-4");
+        right1 = setup("Adventure Player-5");
+        right2 = setup("Adventure Player-6");
+
+    }
+
+    public BufferedImage setup(String imageName) {
+
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+
         try {
 
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-7.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-8.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-3.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-4.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-5.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/Adventure Player-6.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/res/player/" + imageName + ".png"));
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
 
         }catch(IOException e) {
             e.printStackTrace();
         }
+        return image;
+
     }
+
     public void update() {
         
         //This if statement checks if the animiation of the player only happenes when you are pushing w, a, s, d.
@@ -155,7 +169,7 @@ public class Player extends Entity{
                 gp.obj[i] = null;
                 gp.ui.showMessage("You got a key!");
                 break;
-            //if case is Door than it checks if hasKey is greater than one and if it is it will decrease hasKey by 1
+            //if case is Door than it checks if hasKey is greater than zero and if it is it will decrease hasKey by 1
             case "Door":
                 if(hasKey > 0) {
                     gp.playSE(3);
@@ -163,6 +177,7 @@ public class Player extends Entity{
                     hasKey--;
                     gp.ui.showMessage("You opened the door!");
                 }
+                //Will show message You need a Key! if hasKey is less than 1
                 else {
                     gp.ui.showMessage("You need a key!");
                 }
@@ -230,7 +245,7 @@ public class Player extends Entity{
             break;
         }
         //draws image on the screen, since screenX and screenY is final variable he doesn't change location on the screen(final variable cannot be changed unless you change it in the class)
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
 
 
     }

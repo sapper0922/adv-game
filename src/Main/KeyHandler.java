@@ -13,6 +13,9 @@ public class KeyHandler implements KeyListener{
      leftPressed = false,
      rightPressed = false;
 
+     //Debug
+     boolean checkDrawTime = false;
+
     @Override
     public void keyTyped(KeyEvent e) {
         
@@ -55,6 +58,16 @@ public class KeyHandler implements KeyListener{
             //if D is pressed, rightPressed will be true
             rightPressed = true;
 
+        }
+
+        //Debug
+        if(code == KeyEvent.VK_T) {
+            if(checkDrawTime == false) {
+                checkDrawTime = true;
+            }
+            else if(checkDrawTime == true) {
+                checkDrawTime = false;
+            }
         }
         
     }
