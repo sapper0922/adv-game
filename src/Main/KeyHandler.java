@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 //KeyListener is able to receive inputs from keyboards
 public class KeyHandler implements KeyListener{
 
+    GamePanel gp;
     //Create Boolean Variable upPressed, downPressed, leftPressed, and rightPressed
     public Boolean
      upPressed = false,
@@ -15,6 +16,10 @@ public class KeyHandler implements KeyListener{
 
      //Debug
      boolean checkDrawTime = false;
+
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -57,6 +62,18 @@ public class KeyHandler implements KeyListener{
 
             //if D is pressed, rightPressed will be true
             rightPressed = true;
+
+        }
+
+        if(code == KeyEvent.VK_P) {
+
+            //if P is pressed and if gameState is = to playState, gp.gameState will = pauseState and vice versa for the else if
+            if(gp.gameState == gp.playState) {
+                gp.gameState = gp.pauseState;
+            }
+            else if(gp.gameState == gp.pauseState) {
+                gp.gameState = gp.playState;
+            }
 
         }
 
