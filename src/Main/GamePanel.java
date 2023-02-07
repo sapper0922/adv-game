@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
     TileManager tileM = new TileManager(this);
 
     //Make variable keyH with KeyHandler
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
 
     //Instantiate Sound class
     Sound music = new Sound();
@@ -68,6 +68,11 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Instantiate SuperObject class
     public SuperObject obj[] = new SuperObject[10];
+
+    //Game State
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     public GamePanel() {
 
@@ -94,6 +99,8 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setObject();
 
         playMusic(0);
+
+        gameState = playState;
 
     }
 
@@ -156,14 +163,20 @@ public class GamePanel extends JPanel implements Runnable{
     //Update the information
     public void update() {
 
-        player.update();
+        if(gameState == playState) {
+            player.update();
+        }
+        if(gameState == pauseState) {
+            // nothing
+        }
+
 
     }
     
     //redraws the information so you can see the change in the window. Graphics is a class that has many functions to draw things on the window
     public void paintComponent(Graphics g) {
 
-        //When you use paintComponent, you need to write this
+        //This is calling the superclass component to draw the background.
         super.paintComponent(g);
 
         //Convert Graphics class to Graphics2D because Graphics2D has more functions like Geometry, Coordinates, Color, and Text

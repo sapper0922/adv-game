@@ -18,7 +18,7 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
-    public int hasKey = 0;
+    // public int hasKey = 0;
 
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -158,43 +158,6 @@ public class Player extends Entity{
     public void pickUpObject(int i) {
         if(i != 999) {
 
-            //used for switch statement below
-            String objectName = gp.obj[i].name;
-
-            switch(objectName) {
-            //if case is Key(or if touched), than the variable hasKey will increase by 1
-            case "Key":
-                gp.playSE(1);
-                hasKey++;
-                gp.obj[i] = null;
-                gp.ui.showMessage("You got a key!");
-                break;
-            //if case is Door than it checks if hasKey is greater than zero and if it is it will decrease hasKey by 1
-            case "Door":
-                if(hasKey > 0) {
-                    gp.playSE(3);
-                    gp.obj[i] = null;
-                    hasKey--;
-                    gp.ui.showMessage("You opened the door!");
-                }
-                //Will show message You need a Key! if hasKey is less than 1
-                else {
-                    gp.ui.showMessage("You need a key!");
-                }
-                System.out.println("Key:"+hasKey);
-                break; 
-            case "Boots":
-                gp.playSE(2);
-                speed += 2;
-                gp.obj[i] = null;
-                gp.ui.showMessage("Speed Up!");
-                break;
-            case "Chest":
-                gp.ui.gameFinished = true;
-                gp.stopMusic();
-                gp.playSE(4);
-                break;
-            }
         }
     }
 
@@ -212,7 +175,7 @@ public class Player extends Entity{
             if(spriteNum == 1) {
                 image = up1;
             }
-            if(spriteNum ==2) {
+            if(spriteNum == 2) {
                 image = up2;
             }
             break;
@@ -221,7 +184,7 @@ public class Player extends Entity{
             if(spriteNum == 1) {
                 image = down1;
             }
-            if(spriteNum ==2) {
+            if(spriteNum == 2) {
                 image = down2;
             }
             break;
@@ -230,7 +193,7 @@ public class Player extends Entity{
             if(spriteNum == 1) {
                 image = left1;
             }
-            if(spriteNum ==2) {
+            if(spriteNum == 2) {
                 image = left2;
             }
             break;
@@ -239,7 +202,7 @@ public class Player extends Entity{
             if(spriteNum == 1) {
                 image = right1;
             }
-            if(spriteNum ==2) {
+            if(spriteNum == 2) {
                 image = right2;
             }
             break;
