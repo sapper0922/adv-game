@@ -3,27 +3,22 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import main.GamePanel;
 import main.KeyHandler;
-import main.UtilityTool;
 
 public class Player extends Entity{
     
-    GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
-    // public int hasKey = 0;
+    int standCounter = 0;
 
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
-        this.gp = gp;
+        super(gp);
+
         this.keyH = keyH;
 
         //place player at the center of the screen
@@ -62,31 +57,14 @@ public class Player extends Entity{
     //Images for up1, up2, down1, down2, left1, left2, right1, right2.
     public void getPlayerImage() {
 
-        up1 = setup("Adventure Player-7");
-        up2 = setup("Adventure Player-8");
-        down1 = setup("Adventure Player-1");
-        down2 = setup("Adventure Player-2");
-        left1 = setup("Adventure Player-3");
-        left2 = setup("Adventure Player-4");
-        right1 = setup("Adventure Player-5");
-        right2 = setup("Adventure Player-6");
-
-    }
-
-    public BufferedImage setup(String imageName) {
-
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-
-        try {
-
-            image = ImageIO.read(getClass().getResourceAsStream("/res/player/" + imageName + ".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-
-        }catch(IOException e) {
-            e.printStackTrace();
-        }
-        return image;
+        up1 = setup("/res/player/Adventure Player-7");
+        up2 = setup("/res/player/Adventure Player-8");
+        down1 = setup("/res/player/Adventure Player-1");
+        down2 = setup("/res/player/Adventure Player-2");
+        left1 = setup("/res/player/Adventure Player-3");
+        left2 = setup("/res/player/Adventure Player-4");
+        right1 = setup("/res/player/Adventure Player-5");
+        right2 = setup("/res/player/Adventure Player-6");
 
     }
 
