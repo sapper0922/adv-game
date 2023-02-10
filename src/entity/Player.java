@@ -96,6 +96,10 @@ public class Player extends Entity{
             //Check Object Collision
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
+
+            //Check Npc Collision
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
     
             //If Collision is false, Player can move
             if(collisionOn == false) {
@@ -139,10 +143,16 @@ public class Player extends Entity{
         }
     }
 
+    public void interactNPC(int i) {
+        if(i != 999) {
+            System.out.println("You are hitting an npc");
+        }
+    }
+
     public void draw(Graphics2D g2) {
 
-//        g2.setColor(Color.white);
-//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
+        //g2.setColor(Color.white);
+        //g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 
         //create variable image with BufferedImage
         BufferedImage image = null;

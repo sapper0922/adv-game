@@ -26,6 +26,7 @@ public class Entity {
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
+    public int actionLockCounter = 0;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -35,12 +36,15 @@ public class Entity {
 
     }
 
+    //Updates location and image for npc
     public void update() {
 
         setAction();
 
         collisionOn = false;
         gp.cChecker.checkTile(this);
+        gp.cChecker.checkObject(this, false);
+        gp.cChecker.checkPlayer(this);
 
         if(collisionOn == false) {
 
@@ -134,6 +138,7 @@ public class Entity {
 
     }
     
+    //creates image path for player and npc so the images are loaded here
     public BufferedImage setup(String imagePath) {
 
         UtilityTool uTool = new UtilityTool();

@@ -175,4 +175,137 @@ public class CollisionChecker {
 
     }
     
+    // Npc or monster collision
+    public int checkEntity(Entity entity, Entity[] target) {
+
+        int index = 999;
+
+        for(int i = 0; i < target.length; i++) {
+
+            if(target[i] != null) {
+
+                //Get the entity's solid area position
+                entity.solidArea.x = entity.worldX + entity.solidArea.x;
+                entity.solidArea.y = entity.worldY + entity.solidArea.y;
+                
+                //get the object's solid areas position
+                target[i].solidArea.x = target[i].worldX + target[i].solidArea.x;
+                target[i].solidArea.y = target[i].worldY + target[i].solidArea.y;
+
+                //checks where entity or player will be after they move
+                switch(entity.direction) {
+                    case "up":
+                        entity.solidArea.y -= entity.speed;
+                        //checks if rectangle collides with another rectangle
+                        if(entity.solidArea.intersects(target[i].solidArea)){
+                            //checks if this specific tile has collision
+                            //sets collisionOn to true which means the player can't move
+                            entity.collisionOn = true;
+                            //checks if the player is picking up an object instead of an NPC or a Monster
+                            index = i;
+                        }
+                        break;
+                    case "down":
+                        entity.solidArea.y += entity.speed;
+                        if(entity.solidArea.intersects(target[i].solidArea)){
+                            //checks if this specific tile has collision
+                            //sets collisionOn to true which means the player can't move
+                            entity.collisionOn = true;
+                            //checks if the player is picking up an object instead of an NPC or a Monster
+                            index = i;
+                        }
+                        break;
+                    case "left":
+                        entity.solidArea.x -= entity.speed;
+                        if(entity.solidArea.intersects(target[i].solidArea)){
+                            //checks if this specific tile has collision
+                            //sets collisionOn to true which means the player can't move
+                            entity.collisionOn = true;
+                            //checks if the player is picking up an object instead of an NPC or a Monster
+                            index = i;
+                        }
+                        break;
+                    case "right":
+                        entity.solidArea.x += entity.speed;
+                        if(entity.solidArea.intersects(target[i].solidArea)){
+                            //checks if this specific tile has collision
+                            //sets collisionOn to true which means the player can't move
+                            entity.collisionOn = true;
+                            //checks if the player is picking up an object instead of an NPC or a Monster
+                            index = i;
+                        }
+                        break;   
+                }
+                //reseting these values because these variable will keep increasing
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                target[i].solidArea.x = target[i].solidAreaDefaultX;
+                target[i].solidArea.y = target[i].solidAreaDefaultY;
+            }
+
+        }
+
+        //since this is an int function, I need to return an Integer
+        return index;
+
+    }
+
+    public void checkPlayer(Entity entity) {
+
+        //Get the entity's solid area position
+        entity.solidArea.x = entity.worldX + entity.solidArea.x;
+        entity.solidArea.y = entity.worldY + entity.solidArea.y;
+        
+        //get the object's solid areas position
+        gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
+        gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+
+        //checks where entity or player will be after they move
+        switch(entity.direction) {
+            case "up":
+                entity.solidArea.y -= entity.speed;
+                //checks if rectangle collides with another rectangle
+                if(entity.solidArea.intersects(gp.player.solidArea)){
+                    //checks if this specific tile has collision
+                    //sets collisionOn to true which means the player can't move
+                    entity.collisionOn = true;
+                    //checks if the player is picking up an object instead of an NPC or a Monster
+                }
+                break;
+            case "down":
+                entity.solidArea.y += entity.speed;
+                if(entity.solidArea.intersects(gp.player.solidArea)){
+                    //checks if this specific tile has collision
+                    //sets collisionOn to true which means the player can't move
+                    entity.collisionOn = true;
+                    //checks if the player is picking up an object instead of an NPC or a Monster
+                }
+                break;
+            case "left":
+                entity.solidArea.x -= entity.speed;
+                if(entity.solidArea.intersects(gp.player.solidArea)){
+                    //checks if this specific tile has collision
+                    //sets collisionOn to true which means the player can't move
+                    entity.collisionOn = true;
+                    //checks if the player is picking up an object instead of an NPC or a Monster
+                }
+                break;
+            case "right":
+                entity.solidArea.x += entity.speed;
+                if(entity.solidArea.intersects(gp.player.solidArea)){
+                    //checks if this specific tile has collision
+                    //sets collisionOn to true which means the player can't move
+                    entity.collisionOn = true;
+                    //checks if the player is picking up an object instead of an NPC or a Monster
+                }
+                break;   
+        }
+        //reseting these values because these variable will keep increasing
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;
+        gp.player.solidArea.x = gp.player.solidAreaDefaultX;
+        gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+
+    }
+
 }

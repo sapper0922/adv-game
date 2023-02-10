@@ -28,28 +28,38 @@ public class NPC_OldMan extends Entity{
 
     }
 
+    //Action for npc
     public void setAction() {
 
-        //picks a random number 1 to 100
-        Random random = new Random();
-        int i = random.nextInt(100) + 1;
 
-        if(i <= 25) {
-            direction = "up";
-        }
-        if(i > 25 && i <= 50) {
-            direction = "down";
-        }
-        if(i > 50 && i <=75) {
-            direction = "left";
-        }
-        if(i > 75 && i <= 100) {
-            direction = "right";
+        actionLockCounter++;
+
+        if(actionLockCounter == 120) {
+            
+            //picks a random number 1 to 10
+            Random random = new Random();
+            int i = random.nextInt(100) + 1;
+
+            if(i <= 25) {
+                direction = "up";
+            }
+            if(i > 25 && i <= 50) {
+                direction = "down";
+            }
+            if(i > 50 && i <=75) {
+                direction = "left";
+            }
+            if(i > 75 && i <= 100) {
+                direction = "right";
+            }
+
+            actionLockCounter = 0;
+
         }
 
-    }
 
-    public static void etAction1() {
+
+
     }
 
 }
