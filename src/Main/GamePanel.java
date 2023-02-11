@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.lang.constant.Constable;
 
 public class GamePanel extends JPanel implements Runnable{
     
@@ -76,6 +77,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int dialogueState = 3;
 
     public GamePanel() {
 
@@ -167,6 +169,7 @@ public class GamePanel extends JPanel implements Runnable{
     //Update the information
     public void update() {
 
+        //check if gameState is 1 than updates the player
         if(gameState == playState) {
             player.update();
 
@@ -177,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         if(gameState == pauseState) {
-            // nothing
+            //nothing
         }
 
 

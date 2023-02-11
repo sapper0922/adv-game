@@ -33,60 +33,71 @@ public class KeyHandler implements KeyListener{
         //getKeyCode returns a number of the key that was pressed EX. if you type A, getKeyCode wil return 65, if you type C, getKeyCode will return 67
         int code = e.getKeyCode();
 
-        //checks if W is pressed
-        if(code == KeyEvent.VK_W) {
-
-            //if W is pressed, upPressed will be true
-            upPressed = true;
+        //Play State
+        if(gp.gameState == gp.playState) {
             
-        }
+            //checks if W is pressed
+            if(code == KeyEvent.VK_W) {
 
-        //checks if S is pressed
-        if(code == KeyEvent.VK_S) {
+                //if W is pressed, upPressed will be true
+                upPressed = true;
+                
+            }
 
-            //if S is pressed, downPressed will be true
-            downPressed = true;
+            //checks if S is pressed
+            if(code == KeyEvent.VK_S) {
 
-        }
+                //if S is pressed, downPressed will be true
+                downPressed = true;
 
-        //checks if A is pressed
-        if(code == KeyEvent.VK_A) {
+            }
 
-            //if A is pressed, leftPressed will be true
-            leftPressed = true;
+            //checks if A is pressed
+            if(code == KeyEvent.VK_A) {
 
-        }
+                //if A is pressed, leftPressed will be true
+                leftPressed = true;
 
-        //chekcs if D is pressed
-        if(code == KeyEvent.VK_D) {
+            }
 
-            //if D is pressed, rightPressed will be true
-            rightPressed = true;
+            //chekcs if D is pressed
+            if(code == KeyEvent.VK_D) {
 
-        }
+                //if D is pressed, rightPressed will be true
+                rightPressed = true;
 
-        if(code == KeyEvent.VK_P) {
+            }
 
-            //if P is pressed and if gameState is = to playState, gp.gameState will = pauseState and vice versa for the else if
-            if(gp.gameState == gp.playState) {
+            if(code == KeyEvent.VK_P) {                
                 gp.gameState = gp.pauseState;
             }
-            else if(gp.gameState == gp.pauseState) {
+
+            //Debug
+            if(code == KeyEvent.VK_T) {
+                if(checkDrawTime == false) {
+                    checkDrawTime = true;
+                }
+                else if(checkDrawTime == true) {
+                    checkDrawTime = false;
+                }
+            }
+
+        }
+
+        //Pause State
+        else if(gp.gameState == gp.pauseState) {
+            if(code == KeyEvent.VK_P) {                
                 gp.gameState = gp.playState;
             }
-
         }
 
-        //Debug
-        if(code == KeyEvent.VK_T) {
-            if(checkDrawTime == false) {
-                checkDrawTime = true;
-            }
-            else if(checkDrawTime == true) {
-                checkDrawTime = false;
+        //Dialogue State
+        else if(gp.gameState == gp.dialogueState) {
+            if(code == KeyEvent.VK_ENTER) {
+                gp.gameState = gp.playState;
             }
         }
-        
+
     }
 
     @Override
