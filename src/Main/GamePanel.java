@@ -11,7 +11,6 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.lang.constant.Constable;
 
 public class GamePanel extends JPanel implements Runnable{
     
@@ -49,7 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
     TileManager tileM = new TileManager(this);
 
     //Make variable keyH with KeyHandler
-    KeyHandler keyH = new KeyHandler(this);
+    public KeyHandler keyH = new KeyHandler(this);
 
     //Instantiate Sound class
     Sound music = new Sound();
