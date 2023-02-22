@@ -33,6 +33,41 @@ public class KeyHandler implements KeyListener{
         
         //getKeyCode returns a number of the key that was pressed EX. if you type A, getKeyCode wil return 65, if you type C, getKeyCode will return 67
         int code = e.getKeyCode();
+        //TITLE STATE
+        if(gp.gameState == gp.titleState) {
+
+            System.out.println("h");
+
+            //checks if W is pressed
+            if(code == 87) {
+                gp.ui.commandNum--;
+                if(gp.ui.commandNum < 0) {
+                    gp.ui.commandNum = 2;
+                }
+            }
+        
+            //checks if S is pressed
+            if(code == KeyEvent.VK_S) {
+                gp.ui.commandNum++;
+                if(gp.ui.commandNum > 2) {
+                    gp.ui.commandNum = 0;
+                }
+            }
+
+            if(code == KeyEvent.VK_ENTER) {
+                if(gp.ui.commandNum == 0) {
+                    gp.gameState = gp.playState;
+                    gp.playMusic(0);
+                }
+                if(gp.ui.commandNum == 1) {
+                    //ADD LATER
+                }
+                if(gp.ui.commandNum == 2) {
+                    System.exit(0);
+                }
+            }
+
+        }
 
         //Play State
         if(gp.gameState == gp.playState) {
