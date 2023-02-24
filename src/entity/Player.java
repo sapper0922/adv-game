@@ -52,6 +52,10 @@ public class Player extends Entity{
         //direction the player is facing
         direction = "down";
 
+        //PLAYER STATUS
+        maxLife = 10;
+        life = maxLife;
+
     }
 
     //Images for up1, up2, down1, down2, left1, left2, right1, right2.

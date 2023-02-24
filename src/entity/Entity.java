@@ -7,7 +7,6 @@ import main.GamePanel;
 import main.UtilityTool;
 import java.awt.Rectangle;
 import java.awt.Graphics2D;
-import entity.NPC_OldMan;
 
 public class Entity {
     
@@ -29,6 +28,10 @@ public class Entity {
     public int actionLockCounter = 0;
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
+
+    //CHARACTER STATUS
+    public int maxLife;
+    public int life;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
