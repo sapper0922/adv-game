@@ -60,7 +60,10 @@ public class GamePanel extends JPanel implements Runnable{
     //Instantiate AssetSetter class
     public AssetSetter aSetter = new AssetSetter(this);
 
+    //Instantiate UI class
     public UI ui = new UI(this);
+
+    public EventHandler eHandler = new EventHandler(this);
 
     //Creates a variable called gameThread that has all the functions the Thread has
     Thread gameThread;
