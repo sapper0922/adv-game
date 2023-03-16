@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import entity.Player;
 
 //For collision detection the collision solid are is smaller than tileSize.
 /*
@@ -49,38 +50,38 @@ public class CollisionChecker {
             }
             break;
         case "down":
-        //use the speed to predict where the player is going to be next frame
-        entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
-        //the bottom left tile
-        tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
-        //the bottom right tile
-        tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
-        if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
-            entity.collisionOn = true;
-        }
+            //use the speed to predict where the player is going to be next frame
+            entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+            //the bottom left tile
+            tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+            //the bottom right tile
+            tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+            if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
+                entity.collisionOn = true;
+            }
             break;
         case "left":
-        //use the speed to predict where the player is going to be next frame
-        entityLeftCol = (entityLeftWorldX - entity.speed)/gp.tileSize;
-        //the top left tile
-        tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
-        //the bottom left tile
-        tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
-        if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
-            entity.collisionOn = true;
-        }
+            //use the speed to predict where the player is going to be next frame
+            entityLeftCol = (entityLeftWorldX - entity.speed)/gp.tileSize;
+            //the top left tile
+            tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+            //the bottom left tile
+            tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+            if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
+                entity.collisionOn = true;
+            }
             break;
         case "right":
-        //use the speed to predict where the player is going to be next frame
-        entityRightCol = (entityRightWorldX + entity.speed)/gp.tileSize;
-        //the top right tile
-        tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
-        //the bottom right tile
-        tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
-        if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
-            entity.collisionOn = true;
-        }
-            break;
+            //use the speed to predict where the player is going to be next frame
+            entityRightCol = (entityRightWorldX + entity.speed)/gp.tileSize;
+            //the top right tile
+            tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+            //the bottom right tile
+            tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+            if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
+                entity.collisionOn = true;
+            }
+                break;
         }
     }
 
@@ -103,63 +104,18 @@ public class CollisionChecker {
 
                 //checks where entity or player will be after they move
                 switch(entity.direction) {
-                    case "up":
-                        entity.solidArea.y -= entity.speed;
-                        //checks if rectangle collides with another rectangle
-                        if(entity.solidArea.intersects(gp.obj[i].solidArea)){
-                            //checks if this specific tile has collision
-                            if(gp.obj[i].collision == true) {
-                                //sets collisionOn to true which means the player can't move
-                                entity.collisionOn = true;
-                            }
-                            //checks if the player is picking up an object instead of an NPC or a Monster
-                            if(player == true) {
-                                index = i;
-                            }
-                        }
-                        break;
-                    case "down":
-                        entity.solidArea.y += entity.speed;
-                        if(entity.solidArea.intersects(gp.obj[i].solidArea)){
-                            //checks if this specific tile has collision
-                            if(gp.obj[i].collision == true) {
-                                //sets collisionOn to true which means the player can't move
-                                entity.collisionOn = true;
-                            }
-                            //checks if the player is picking up an object instead of an NPC or a Monster
-                            if(player == true) {
-                                index = i;
-                            }
-                        }
-                        break;
-                    case "left":
-                        entity.solidArea.x -= entity.speed;
-                        if(entity.solidArea.intersects(gp.obj[i].solidArea)){
-                            //checks if this specific tile has collision
-                            if(gp.obj[i].collision == true) {
-                                //sets collisionOn to true which means the player can't move
-                                entity.collisionOn = true;
-                            }
-                            //checks if the player is picking up an object instead of an NPC or a Monster
-                            if(player == true) {
-                                index = i;
-                            }
-                        }
-                        break;
-                    case "right":
-                        entity.solidArea.x += entity.speed;
-                        if(entity.solidArea.intersects(gp.obj[i].solidArea)){
-                            //checks if this specific tile has collision
-                            if(gp.obj[i].collision == true) {
-                                //sets collisionOn to true which means the player can't move
-                                entity.collisionOn = true;
-                            }
-                            //checks if the player is picking up an object instead of an NPC or a Monster
-                            if(player == true) {
-                                index = i;
-                            }
-                        }
-                        break;   
+                    case "up": entity.solidArea.y -= entity.speed; break;
+                    case "down": entity.solidArea.y += entity.speed; break;
+                    case "left": entity.solidArea.x -= entity.speed; break;
+                    case "right": entity.solidArea.x += entity.speed; break;   
+                }
+                if(entity.solidArea.intersects(gp.obj[i].solidArea)){
+                    if(gp.obj[i].collision == true) {
+                        entity.collisionOn = true;
+                    }
+                    if(player == true) {
+                        index = i;
+                    }
                 }
                 //reseting these values because these variable will keep increasing
                 entity.solidArea.x = entity.solidAreaDefaultX;
@@ -194,47 +150,16 @@ public class CollisionChecker {
 
                 //checks where entity or player will be after they move
                 switch(entity.direction) {
-                    case "up":
-                        entity.solidArea.y -= entity.speed;
-                        //checks if rectangle collides with another rectangle
-                        if(entity.solidArea.intersects(target[i].solidArea)){
-                            //checks if this specific tile has collision
-                            //sets collisionOn to true which means the player can't move
-                            entity.collisionOn = true;
-                            //checks if the player is picking up an object instead of an NPC or a Monster
-                            index = i;
-                        }
-                        break;
-                    case "down":
-                        entity.solidArea.y += entity.speed;
-                        if(entity.solidArea.intersects(target[i].solidArea)){
-                            //checks if this specific tile has collision
-                            //sets collisionOn to true which means the player can't move
-                            entity.collisionOn = true;
-                            //checks if the player is picking up an object instead of an NPC or a Monster
-                            index = i;
-                        }
-                        break;
-                    case "left":
-                        entity.solidArea.x -= entity.speed;
-                        if(entity.solidArea.intersects(target[i].solidArea)){
-                            //checks if this specific tile has collision
-                            //sets collisionOn to true which means the player can't move
-                            entity.collisionOn = true;
-                            //checks if the player is picking up an object instead of an NPC or a Monster
-                            index = i;
-                        }
-                        break;
-                    case "right":
-                        entity.solidArea.x += entity.speed;
-                        if(entity.solidArea.intersects(target[i].solidArea)){
-                            //checks if this specific tile has collision
-                            //sets collisionOn to true which means the player can't move
-                            entity.collisionOn = true;
-                            //checks if the player is picking up an object instead of an NPC or a Monster
-                            index = i;
-                        }
-                        break;   
+                    case "up": entity.solidArea.y -= entity.speed; break;
+                    case "down": entity.solidArea.y += entity.speed; break;
+                    case "left": entity.solidArea.x -= entity.speed; break;
+                    case "right": entity.solidArea.x += entity.speed; break;   
+                }
+                if(entity.solidArea.intersects(target[i].solidArea)){
+                    if(target[i] != entity) {
+                        entity.collisionOn = true;
+                        index = i;
+                    }                    
                 }
                 //reseting these values because these variable will keep increasing
                 entity.solidArea.x = entity.solidAreaDefaultX;
@@ -250,7 +175,9 @@ public class CollisionChecker {
 
     }
 
-    public void checkPlayer(Entity entity) {
+    public boolean checkPlayer(Entity entity) {
+
+        boolean contactPlayer = false;
 
         //Get the entity's solid area position
         entity.solidArea.x = entity.worldX + entity.solidArea.x;
@@ -262,49 +189,21 @@ public class CollisionChecker {
 
         //checks where entity or player will be after they move
         switch(entity.direction) {
-            case "up":
-                entity.solidArea.y -= entity.speed;
-                //checks if rectangle collides with another rectangle
-                if(entity.solidArea.intersects(gp.player.solidArea)){
-                    //checks if this specific tile has collision
-                    //sets collisionOn to true which means the player can't move
-                    entity.collisionOn = true;
-                    //checks if the player is picking up an object instead of an NPC or a Monster
-                }
-                break;
-            case "down":
-                entity.solidArea.y += entity.speed;
-                if(entity.solidArea.intersects(gp.player.solidArea)){
-                    //checks if this specific tile has collision
-                    //sets collisionOn to true which means the player can't move
-                    entity.collisionOn = true;
-                    //checks if the player is picking up an object instead of an NPC or a Monster
-                }
-                break;
-            case "left":
-                entity.solidArea.x -= entity.speed;
-                if(entity.solidArea.intersects(gp.player.solidArea)){
-                    //checks if this specific tile has collision
-                    //sets collisionOn to true which means the player can't move
-                    entity.collisionOn = true;
-                    //checks if the player is picking up an object instead of an NPC or a Monster
-                }
-                break;
-            case "right":
-                entity.solidArea.x += entity.speed;
-                if(entity.solidArea.intersects(gp.player.solidArea)){
-                    //checks if this specific tile has collision
-                    //sets collisionOn to true which means the player can't move
-                    entity.collisionOn = true;
-                    //checks if the player is picking up an object instead of an NPC or a Monster
-                }
-                break;   
+            case "up": entity.solidArea.y -= entity.speed; break;
+            case "down": entity.solidArea.y += entity.speed; break;
+            case "left": entity.solidArea.x -= entity.speed; break;
+            case "right": entity.solidArea.x += entity.speed; break;   
         }
-        //reseting these values because these variable will keep increasing
+        if(entity.solidArea.intersects(gp.player.solidArea)){
+            entity.collisionOn = true;
+            contactPlayer = true;
+        }
         entity.solidArea.x = entity.solidAreaDefaultX;
         entity.solidArea.y = entity.solidAreaDefaultY;
         gp.player.solidArea.x = gp.player.solidAreaDefaultX;
         gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+
+        return contactPlayer;
 
     }
 

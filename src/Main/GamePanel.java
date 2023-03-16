@@ -4,13 +4,15 @@ import javax.swing.JPanel;
 
 import entity.Entity;
 import entity.Player;
-import object.SuperObject;
 import tile.TileManager;
 
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable{
     
@@ -72,8 +74,10 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this,keyH);
 
     //Instantiate SuperObject class
-    public SuperObject obj[] = new SuperObject[10];
+    public Entity obj[] = new Entity[10];
     public Entity npc[] = new Entity[10];
+    public Entity monster[] = new Entity[20];
+    ArrayList<Entity> entityList = new ArrayList<>();
 
     //Game State
     public int gameState;
@@ -106,7 +110,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         aSetter.setObject();
         aSetter.setNPC();
-
+        aSetter.setMonster();
         gameState = titleState;
 
     }
@@ -179,6 +183,11 @@ public class GamePanel extends JPanel implements Runnable{
                     npc[i].update();
                 }
             }
+            for(int i = 0; i < monster.length; i++) {
+                if(monster[i] != null) {
+                    monster[i].update();
+                }
+            }
         }
         if(gameState == pauseState) {
             //nothing
@@ -202,17 +211,11 @@ public class GamePanel extends JPanel implements Runnable{
             drawStart = System.nanoTime();
         }
 
-        //draw everything from Object class
-        for(int i = 0; i < obj.length; i++) {
-            if(obj[i] != null) {
-                obj[i].draw(g2, this);
-            }
-        }
-
         //TITLE SCREEN
         if(gameState == titleState) {
 
             ui.draw(g2);
+            
 
         }
         //OTHERS
@@ -221,15 +224,46 @@ public class GamePanel extends JPanel implements Runnable{
         //draw everything from TileManager class
         tileM.draw(g2);
 
-        //NPC
+        //Add entities to the list
+        entityList.add(player);
+        
         for(int i = 0; i < npc.length; i++) {
             if(npc[i] != null) {
-                npc[i].draw(g2);
+                entityList.add(npc[i]);
             }
         }
 
-        //draw everything from Player class
-        player.draw(g2);
+         for(int i = 0; i < obj.length; i++) {
+             if(obj[i] != null) {
+                 entityList.add(obj[i]);
+             }
+         }
+
+         for(int i = 0; i < monster.length; i++) {
+            if(monster[i] != null) {
+                entityList.add(monster[i]);
+            }
+        }
+
+        //SORT
+        Collections.sort(entityList, new Comparator<Entity>() {
+
+            @Override
+            public int compare(Entity e1, Entity e2) {
+                int result = Integer.compare(e1.worldY, e2.worldY);
+                return result;
+            }
+
+        });
+
+        //Draw Entityies
+        for(int i = 0; i < entityList.size(); i++) {
+            entityList.get(i).draw(g2);
+        }
+        //Empty Entity List
+        for(int i = 0; i < entityList.size(); i++) {
+            entityList.remove(i);
+        }
 
         //Draws the ui on the screen
         ui.draw(g2);
@@ -254,9 +288,9 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void playMusic(int i) {
 
-        music.setFile(i);
-        music.play();
-        music.loop();
+        //music.setFile(i);
+        //music.play();
+        //music.loop();
 
     }
     public void stopMusic() {

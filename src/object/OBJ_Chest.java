@@ -1,29 +1,19 @@
 package object;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
+import entity.Entity;
 import main.GamePanel;
 
 //A subclass of SuperObject used to make Chest
 //extends SuperObject to this class
-public class OBJ_Chest extends SuperObject{
-    
-    GamePanel gp;
+public class OBJ_Chest extends Entity{
 
     //try to make of chest image and catch is printStackTrace
     public OBJ_Chest(GamePanel gp) {
 
-        this.gp = gp;
-
+        super(gp);
         name = "Chest";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/res/objects/chest (OLD).png"));
-            uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+        setup("/res/objects/chest (OLD)", gp.tileSize, gp.tileSize);
 
-        }catch(IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

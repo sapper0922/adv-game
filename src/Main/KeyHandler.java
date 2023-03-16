@@ -36,8 +36,6 @@ public class KeyHandler implements KeyListener{
         //TITLE STATE
         if(gp.gameState == gp.titleState) {
 
-            System.out.println("h");
-
             //checks if W is pressed
             if(code == 87) {
                 gp.ui.commandNum--;
@@ -70,7 +68,7 @@ public class KeyHandler implements KeyListener{
         }
 
         //Play State
-        if(gp.gameState == gp.playState) {
+        else if(gp.gameState == gp.playState) {
             
             //checks if W is pressed
             if(code == KeyEvent.VK_W) {
