@@ -22,10 +22,10 @@ public class Sound {
         soundURL[2] = getClass().getResource("/res/sound/powerup.wav");
         soundURL[3] = getClass().getResource("/res/sound/unlock.wav");
         soundURL[4] = getClass().getResource("/res/sound/fanfare.wav");
-
-        System.out.println(getClass().getResource("/res/sound/BlueBoyAdventure.wav"));
-        
-        System.out.println(new File(".").getAbsolutePath());
+        soundURL[5] = getClass().getResource("/res/sound/hitmonster.wav");
+        soundURL[6] = getClass().getResource("/res/sound/receivedamage.wav");
+//      soundURL[7] = getClass().getResource("/res/sound/swingweopon1.wav");
+        soundURL[8] = getClass().getResource("/res/sound/levelup.wav");
 
     }
 
@@ -35,9 +35,7 @@ public class Sound {
         try {
 
             //This is a format to open an audio file in java
-//            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
-//            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();
             clip.open(ais);
 

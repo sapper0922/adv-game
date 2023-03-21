@@ -85,6 +85,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
+    public final int characterState = 4;
 
     public GamePanel() {
 
@@ -185,7 +186,13 @@ public class GamePanel extends JPanel implements Runnable{
             }
             for(int i = 0; i < monster.length; i++) {
                 if(monster[i] != null) {
-                    monster[i].update();
+                    if(monster[i].alive && !monster[i].dying) {
+                        monster[i].update();
+                    }
+                    if(!monster[i].alive) {
+                        monster[i] = null;
+                    }
+
                 }
             }
         }
@@ -288,9 +295,9 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void playMusic(int i) {
 
-        //music.setFile(i);
-        //music.play();
-        //music.loop();
+        music.setFile(i);
+        music.play();
+        music.loop();
 
     }
     public void stopMusic() {

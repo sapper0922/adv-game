@@ -5,6 +5,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Shield_Wood;
+import object.OBJ_Sword_Normal;
+
 import java.awt.AlphaComposite;
 
 public class Player extends Entity{
@@ -14,6 +17,7 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
     int standCounter = 0;
+    public boolean attackCanceled = false;
 
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -60,22 +64,37 @@ public class Player extends Entity{
         direction = "down";
 
         //PLAYER STATUS
-        maxLife = 10;
+        level = 1;
+        maxLife = 6;
         life = maxLife;
-
+        strength = 1; //More strength means he does more damage
+        dexterity = 1; // More dexterity means he recieves less damage
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack(); // The total attack value is decided by strentgh and weapon
+        defence = getDefence(); // The total defence value is decided by dexterity and shield
+    }
+    public int getAttack() {
+        return attack = strength * currentWeapon.attackValue;
+    }
+    public int getDefence() {
+        return defence = dexterity * currentShield.defenceValue;
     }
 
     //Images for up1, up2, down1, down2, left1, left2, right1, right2.
     public void getPlayerImage() {
 
-        up1 = setup("/res/player/Adventure Player-7", gp.tileSize, gp.tileSize);
-        up2 = setup("/res/player/Adventure Player-8", gp.tileSize, gp.tileSize);
-        down1 = setup("/res/player/Adventure Player-1", gp.tileSize, gp.tileSize);
-        down2 = setup("/res/player/Adventure Player-2", gp.tileSize, gp.tileSize);
-        left1 = setup("/res/player/Adventure Player-3", gp.tileSize, gp.tileSize);
-        left2 = setup("/res/player/Adventure Player-4", gp.tileSize, gp.tileSize);
-        right1 = setup("/res/player/Adventure Player-5", gp.tileSize, gp.tileSize);
-        right2 = setup("/res/player/Adventure Player-6", gp.tileSize, gp.tileSize);
+        up1 = setup("/res/player/boy_up_1", gp.tileSize, gp.tileSize);
+        up2 = setup("/res/player/boy_up_2", gp.tileSize, gp.tileSize);
+        down1 = setup("/res/player/boy_down_1", gp.tileSize, gp.tileSize);
+        down2 = setup("/res/player/boy_down_2", gp.tileSize, gp.tileSize);
+        left1 = setup("/res/player/boy_left_1", gp.tileSize, gp.tileSize);
+        left2 = setup("/res/player/boy_left_2", gp.tileSize, gp.tileSize);
+        right1 = setup("/res/player/boy_right_1", gp.tileSize, gp.tileSize);
+        right2 = setup("/res/player/boy_right_2", gp.tileSize, gp.tileSize);
 
     }
 
@@ -140,22 +159,19 @@ public class Player extends Entity{
             if(collisionOn == false && keyH.enterPressed == false) {
 
                 switch(direction) {
-                    case "up":
-                    worldY -= speed;
-                        break;
-                    case "down":
-                    worldY += speed;
-                        break;
-                    case "left":
-                    worldX -= speed;
-                        break;
-                    case "right":
-                    worldX += speed;
-                        break;
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
                 }
-
             }
 
+            if(keyH.enterPressed && !attackCanceled) {
+                attacking = true;
+                spriteCounter = 0;
+            }
+
+            attackCanceled = false;
             gp.keyH.enterPressed = false;
 
             spriteCounter++;
@@ -241,23 +257,26 @@ public class Player extends Entity{
         if(gp.keyH.enterPressed == true) {
 
             if(i != 999) {
-
+                attackCanceled = true;
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
-            
-            }
-            else {
-                attacking = true;
-            }    
+            }  
         }
     }
 
     public void contactMonster(int i) {
 
         if(i != 999) {
-
             if(!invincible) {
-                life -= 1;
+                gp.playSE(6);
+
+                //Setting damage variable which controls how much life to take away depending on attack and defence
+                int damage = gp.monster[i].attack - defence;
+                if(damage < 0) {
+                    damage = 0;
+                }
+
+                life -= damage;
                 invincible = true;
             }
         }
@@ -266,14 +285,46 @@ public class Player extends Entity{
     public void damageMonster(int i) {
 
         if(i != 999) {
-            if(gp.monster[i].invincible == false) {
-                gp.monster[i].life -= 1;
+            if(!gp.monster[i].invincible) {
+                gp.playSE(5);
+
+                //Setting damage variable which controls how much life to take away depending on attack and defence
+                int damage = attack - gp.monster[i].defence;
+                if(damage < 0) {
+                    damage = 0;
+                }
+                gp.monster[i].life -= damage;
+                gp.ui.addMessage(damage + " damage! ");
+
                 gp.monster[i].invincible = true;
+                gp.monster[i].damageReaction();
 
                 if(gp.monster[i].life <= 0){
-                    gp.monster[i] = null;
+                    gp.monster[i].dying = true;
+                    gp.ui.addMessage("Killed the " + gp.monster[i].name + "!");
+                    gp.ui.addMessage("EXP + " + gp.monster[i].exp);
+                    exp += gp.monster[i].exp;
+                    checkLevelUp();
                 }
             }
+        }
+    }
+
+    public void checkLevelUp() {
+        if(exp >= nextLevelExp) {
+            level++;
+            nextLevelExp = nextLevelExp*2;
+            maxLife += 2;
+            strength++;
+            dexterity++;
+            attack = getAttack();
+            defence = getDefence();
+
+            gp.playSE(8);
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "You are level " + level + " now!\n" 
+                + "You feel stronger!";
+
         }
     }
 
