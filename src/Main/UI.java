@@ -19,13 +19,13 @@ public class UI {
     Font arial_40, arial_80B;
     BufferedImage heart_full, heart_half, heart_blank;
     public boolean messageOn = false;
-//  public String message = "";
-//  int messageCounter = 0;
     ArrayList<String> message = new ArrayList<>();
     ArrayList<Integer> messageCounter = new ArrayList<>();
     public boolean gameFinished = false;
     public String currentDialogue = "";
     public int commandNum = 0;
+    public int slotCol = 0;
+    public int slotRow = 0;
 
     public UI(GamePanel gp) {
         
@@ -85,6 +85,7 @@ public class UI {
         //Character State
         if(gp.gameState == gp.characterState) {
             drawCharacterScreen();
+            drawInventory();
         }
     }
 
@@ -329,6 +330,48 @@ public class UI {
         g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY-14, null);
         textY += gp.tileSize;
         g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY-14, null);
+
+    }
+
+    public void drawInventory() {
+
+        // Frame
+        int frameX = gp.tileSize*9;
+        int frameY = gp.tileSize;
+        int frameWidth = gp.tileSize*6;
+        int frameHeight = gp.tileSize*5;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        // Slot
+        final int slotXstart = frameX + 20;
+        final int slotYstart = frameY + 20;
+        int slotX = slotXstart;
+        int slotY = slotYstart;
+        int slotSize = gp.tileSize+3;
+
+        // Draw Player's Items
+        for(int i = 0; i < gp.player.inventory.size(); i++) {
+
+            g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY, null);
+
+            slotX += slotSize;
+
+            if(i == 4 || i == 9 || i == 14) {
+                slotX = slotXstart;
+                slotY += slotSize;
+            }
+        }
+
+        // Cursor
+        int cursorX = slotXstart + (slotSize * slotCol);
+        int cursorY = slotYstart + (slotSize * slotRow);
+        int cursorWidth = gp.tileSize;;
+        int cursorHeight = gp.tileSize;
+
+        // Draw cursor
+        g2.setColor(Color.white);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
 
     }
 

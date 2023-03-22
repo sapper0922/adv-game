@@ -104,7 +104,7 @@ public class EventHandler {
             gp.gameState = gameState;
             gp.player.attackCanceled = true;
             gp.ui.currentDialogue = "Your life has been Recovered";
-            gp.player.life = gp.player.maxLife;  
+            gp.player.life = gp.player.maxLife;
         }
 
     }
