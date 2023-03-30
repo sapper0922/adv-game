@@ -3,7 +3,6 @@ package object;
 import entity.Entity;
 import main.GamePanel;
 
-//A subclass of SuperObject used to make Door
 //extends SuperObject to this class
 public class OBJ_Door extends Entity{
 

@@ -3,7 +3,6 @@ package object;
 import entity.Entity;
 import main.GamePanel;
 
-//A subclass of SuperObject used to make Key
 //extends SuperObject to this class
 public class OBJ_Key extends Entity {
 
@@ -14,6 +13,8 @@ public class OBJ_Key extends Entity {
 
         name = "Key";
         down1 = setup("/res/objects/key", gp.tileSize, gp.tileSize);
+        //down2 = setup("/res/objects/key", gp.tileSize, gp.tileSize);
+        description = "[" + name + "]\nIt opens a door.";
 
     }
 

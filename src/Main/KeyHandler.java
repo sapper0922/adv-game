@@ -13,10 +13,11 @@ public class KeyHandler implements KeyListener{
      downPressed = false,
      leftPressed = false,
      rightPressed = false,
-     enterPressed = false;
+     enterPressed = false,
+     shotKeyPressed = false;
 
      //Debug
-     boolean checkDrawTime = false;
+     boolean showDebugText = false;
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
@@ -115,13 +116,16 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_ENTER) {                
             enterPressed = true;
         }
+        if(code == KeyEvent.VK_F) {                
+            shotKeyPressed = true;
+        }
         //Debug
         if(code == KeyEvent.VK_T) {
-            if(checkDrawTime == false) {
-                checkDrawTime = true;
+            if(showDebugText == false) {
+                showDebugText = true;
             }
-            else if(checkDrawTime == true) {
-                checkDrawTime = false;
+            else if(showDebugText == true) {
+                showDebugText = false;
             }
         }
     }
@@ -163,6 +167,9 @@ public class KeyHandler implements KeyListener{
                 gp.playSE(9);
             }  
         }
+        if(code == KeyEvent.VK_ENTER) {
+            gp.player.selectItem();
+        }
     }
 
     @Override
@@ -185,6 +192,9 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_D) {
             //if D is pressed, rightPressed will be false
             rightPressed = false;
+        }
+        if(code == KeyEvent.VK_F) {                
+            shotKeyPressed = false;
         }
         
     }

@@ -1,11 +1,9 @@
 package main;
 
 import javax.swing.JPanel;
-
 import entity.Entity;
 import entity.Player;
 import tile.TileManager;
-
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -77,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity obj[] = new Entity[10];
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20];
+    public ArrayList<Entity> projectileList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
 
     //Game State
@@ -195,6 +194,17 @@ public class GamePanel extends JPanel implements Runnable{
 
                 }
             }
+            for(int i = 0; i < projectileList.size(); i++) {
+                if(projectileList.get(i) != null) {
+                    if(projectileList.get(i).alive) {
+                        projectileList.get(i).update();
+                    }
+                    if(!projectileList.get(i).alive) {
+                        projectileList.remove(i);
+                    }
+
+                }
+            }
         }
         if(gameState == pauseState) {
             //nothing
@@ -214,7 +224,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         //Debug
         long drawStart = 0;
-        if(keyH.checkDrawTime == true) {
+        if(keyH.showDebugText == true) {
             drawStart = System.nanoTime();
         }
 
@@ -240,15 +250,20 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
 
-         for(int i = 0; i < obj.length; i++) {
+        for(int i = 0; i < obj.length; i++) {
              if(obj[i] != null) {
                  entityList.add(obj[i]);
              }
          }
 
-         for(int i = 0; i < monster.length; i++) {
+        for(int i = 0; i < monster.length; i++) {
             if(monster[i] != null) {
                 entityList.add(monster[i]);
+            }
+        }
+        for(int i = 0; i < projectileList.size(); i++) {
+            if(projectileList.get(i) != null) {
+                entityList.add(projectileList.get(i));
             }
         }
 
@@ -280,7 +295,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 
         //Debug
-        if(keyH.checkDrawTime == true) {
+        if(keyH.showDebugText == true) {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
             g2.setColor(Color.white);

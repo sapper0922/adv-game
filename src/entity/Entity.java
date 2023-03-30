@@ -3,7 +3,6 @@ package entity;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.text.StyleConstants;
 
 import main.GamePanel;
 import main.UtilityTool;
@@ -43,16 +42,18 @@ public class Entity {
     public int spriteCounter = 0;
     public int actionLockCounter = 0;
     public int invincibleCounter = 0;
+    public int shotAvailableCounter = 0;
     int dyingCounter = 0;
     int hpBarCounter = 0;
 
     //Character Attibutes
-    public int type; // 0 = player, 1 = npc, 2 = monster
     public String name;
     public boolean collision = false;
     public int speed;
     public int maxLife;
     public int life;
+    public int maxMana;
+    public int mana;
     public int level;
     public int strength;
     public int dexterity;
@@ -63,10 +64,23 @@ public class Entity {
     public int coin;
     public Entity currentWeapon;
     public Entity currentShield;
+    public Projectile projectile;
 
     //Item Attributes
     public int attackValue;
     public int defenceValue;
+    public String description = "";
+    public int useCost;
+
+    // Type
+    public int type;
+    public final int type_player = 0;
+    public final int type_npc = 1;
+    public final int type_monster = 2;
+    public final int type_sword = 3;
+    public final int type_axe = 4;
+    public final int type_shield = 5;
+    public final int type_consumable = 6;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -99,6 +113,8 @@ public class Entity {
 
     }
 
+    public void use(Entity entity) {}
+
     //Updates location and image for npc
     public void update() {
 
@@ -111,7 +127,7 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);     
 
-        if(this.type == 2 && contactPlayer) {
+        if(this.type == type_monster && contactPlayer) {
             if(!gp.player.invincible) {
                 //we can give damage
                 gp.playSE(6);
@@ -258,7 +274,6 @@ public class Entity {
         if(dyingCounter > i*6 && dyingCounter <= i*7) { changeAlpha(g2,0f); }
         if(dyingCounter > i*7 && dyingCounter <= i*8) { changeAlpha(g2,1f); }
         if(dyingCounter > i*8) {
-            dying = false;
             alive = false;
         }
     }

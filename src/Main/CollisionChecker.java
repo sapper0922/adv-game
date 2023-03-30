@@ -1,7 +1,6 @@
 package main;
 
 import entity.Entity;
-import entity.Player;
 
 //For collision detection the collision solid are is smaller than tileSize.
 /*
@@ -112,9 +111,11 @@ public class CollisionChecker {
                 if(entity.solidArea.intersects(gp.obj[i].solidArea)){
                     if(gp.obj[i].collision == true) {
                         entity.collisionOn = true;
+                        System.out.println("d");
                     }
                     if(player == true) {
                         index = i;
+                       
                     }
                 }
                 //reseting these values because these variable will keep increasing
