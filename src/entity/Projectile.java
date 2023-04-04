@@ -26,11 +26,17 @@ public class Projectile extends Entity{
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if(monsterIndex != 999) {
                 gp.player.damageMonster(monsterIndex, attack);
+                generateParticle(user.projectile,gp.monster[monsterIndex]);
                 alive = false;
             }
         }
         if(user != gp.player) {
-
+            boolean contackPlayer = gp.cChecker.checkPlayer(this);
+            if(!gp.player.invincible && contackPlayer) {
+                damagePlayer(attack);
+                generateParticle(user.projectile,gp.player);
+                alive = false;
+            }
         }
 
         switch(direction) {
@@ -57,5 +63,9 @@ public class Projectile extends Entity{
         }
 
     }
-    
+    public boolean haveResource(Entity user) {
+        boolean haveResource = false;
+        return haveResource;
+    }
+    public void subtractResource(Entity user) {}
 }

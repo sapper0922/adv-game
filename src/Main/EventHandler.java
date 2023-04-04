@@ -48,11 +48,11 @@ public class EventHandler {
 
             if(hit(27,16,"right") == true) {
                 //damages you
-                damagePit(27,16,gp.dialogueState);
+                damagePit(gp.dialogueState);
             }
-            if(hit(23,7,"up") == true) {
+            if(hit(23,12,"up") == true) {
                 //heals you
-                healingPool(23,7,gp.dialogueState);
+                healingPool(gp.dialogueState);
             }
 
         }
@@ -89,7 +89,7 @@ public class EventHandler {
     }
 
     
-    public void damagePit(int col, int row, int gameState) {
+    public void damagePit(int gameState) {
 
         gp.gameState = gameState;
         gp.ui.currentDialogue = "You fall into a pit!";
@@ -99,14 +99,16 @@ public class EventHandler {
 
     }
 
-    public void healingPool(int col, int row, int gameState) {
+    public void healingPool(int gameState) {
         if(gp.keyH.enterPressed == true) {
             gp.gameState = gameState;
             gp.player.attackCanceled = true;
-            gp.ui.currentDialogue = "Your life has been Recovered";
+            gp.ui.currentDialogue = "Your life has been Recovered\nYour mana has been Recovered.";
             gp.player.life = gp.player.maxLife;
+            gp.player.mana = gp.player.maxMana;
             gp.aSetter.setMonster();
         }
+        gp.keyH.enterPressed = false;
 
     }
 

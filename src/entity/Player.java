@@ -11,6 +11,7 @@ import object.OBJ_Sword_Normal;
 import java.awt.AlphaComposite;
 import object.OBJ_Fireball;
 import object.OBJ_Key;
+import object.OBJ_Rock;
 
 public class Player extends Entity{
     
@@ -74,6 +75,9 @@ public class Player extends Entity{
         level = 1;
         maxLife = 6;
         life = maxLife;
+        maxMana = 4;
+        mana = maxMana;
+        ammo = 10;
         strength = 1; //More strength means he does more damage
         dexterity = 1; // More dexterity means he recieves less damage
         exp = 0;
@@ -82,6 +86,7 @@ public class Player extends Entity{
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         projectile = new OBJ_Fireball(gp);
+        //projectile = new OBJ_Rock(gp);
         attack = getAttack(); // The total attack value is decided by strentgh and weapon
         defence = getDefence(); // The total defence value is decided by dexterity and shield
     }
@@ -180,6 +185,9 @@ public class Player extends Entity{
             //Check Monster Collision
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             contactMonster(monsterIndex);
+
+            //Check interactive tile collision
+            int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
             
 
             //CHECK EVENT
@@ -217,11 +225,22 @@ public class Player extends Entity{
                 spriteCounter = 0;
             }
         }
+        else {
+            standCounter++;
+            
+            if(standCounter == 20) {
+                spriteNum = 1;
+                standCounter = 0;
+            }
+        }
 
-        if(gp.keyH.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30) {
+        if(gp.keyH.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30 && projectile.haveResource(this)) {
 
             // Set default coordinates, direction and user
             projectile.set(worldX, worldY, direction, true, this);
+
+            // Subtract the cost (Mana, Ammo, ETC.)
+            projectile.subtractResource(this);
 
             // Add it to the list
             gp.projectileList.add(projectile);
@@ -241,6 +260,12 @@ public class Player extends Entity{
         }
         if(shotAvailableCounter < 30) {
             shotAvailableCounter++;
+        }
+        if(life > maxLife) {
+            life = maxLife;
+        }
+        if(mana > maxMana) {
+            mana = maxMana;
         }
     }
 
@@ -276,6 +301,9 @@ public class Player extends Entity{
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             damageMonster(monsterIndex, attack);
 
+            int iTileIndex = gp.cChecker.checkEntity(this,gp.iTile);
+            damageInteractiveTile(iTileIndex);
+
             //After checking collision, restores the original data
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -293,19 +321,30 @@ public class Player extends Entity{
     //checks if player picked up a key and uses the key
     public void pickUpObject(int i) {
         if(i != 999) {
-            System.out.println("i");
-            String text;
 
-            if(inventory.size() != maxInventorySize) {
-                inventory.add(gp.obj[i]);
-                gp.playSE(1);
-                text = "Got a " + gp.obj[i].name + "!";
+            // Pickup only items
+            if(gp.obj[i].type == type_pickupOnly) {
+                gp.obj[i].use(this);
+                gp.obj[i] = null;
             }
+
+            // Inventory items
             else {
-                text = "You cannot carry anymore!";
+                String text;
+
+                if(inventory.size() != maxInventorySize) {
+                    inventory.add(gp.obj[i]);
+                    gp.playSE(1);
+                    text = "Got a " + gp.obj[i].name + "!";
+                }
+                else {
+                    text = "You cannot carry anymore!";
+                }
+                gp.ui.addMessage(text);
+                gp.obj[i] = null;
             }
-            gp.ui.addMessage(text);
-            gp.obj[i] = null;
+
+            
         }
     }
 
@@ -366,7 +405,23 @@ public class Player extends Entity{
             }
         }
     }
+    public void damageInteractiveTile(int i) {
 
+        if(i != 999 && gp.iTile[i].destructible && gp.iTile[i].isCorrectItem(this) && !gp.iTile[i].invincible) {
+
+            gp.iTile[i].playSE();
+            gp.iTile[i].life--;
+            gp.iTile[i].invincible = true;
+
+            // Generate particle
+            generateParticle(gp.iTile[i],gp.iTile[i]);
+
+            if(gp.iTile[i].life == 0) {
+                gp.iTile[i] = gp.iTile[i].getDestroyedForm();
+
+            }
+        }
+    }
     public void checkLevelUp() {
         if(exp >= nextLevelExp) {
             level++;
