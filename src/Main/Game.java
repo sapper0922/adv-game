@@ -3,9 +3,12 @@ package main;
 import javax.swing.JFrame;
 
 public class Game {
+
+    public static JFrame window;
+
     public static void main(String[] args) throws Exception {
         //Hellooo
-        JFrame window = new JFrame();
+        window = new JFrame();
 
         //Able to close the window clicking the X button on the top right corner
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,6 +24,12 @@ public class Game {
 
         //Adding gamePanel to the window
         window.add(gamePanel);
+
+        gamePanel.config.loadConfig();
+        if(gamePanel.fullScreenOn) {
+            //setUndecorated removes the top bar
+            window.setUndecorated(true);
+        }
 
         //Causes the Window to be sized to fit perfered size
         window.pack();

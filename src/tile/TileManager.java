@@ -21,7 +21,7 @@ public class TileManager {
     public Tile[] tile;
 
     //array called mapTileNum
-    public int mapTileNum[][];
+    public int mapTileNum[][][];
 
     public TileManager (GamePanel gp) {
 
@@ -29,10 +29,11 @@ public class TileManager {
         tile = new Tile[50]; 
 
         //instantiate mapTileNum
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("src/res/maps/worldV2.txt");
+        loadMap("src/res/maps/worldV3.txt",0);
+        loadMap("src/res/maps/interior01.txt",1);
     }
 
     public void getTileImage() {
@@ -85,7 +86,10 @@ public class TileManager {
         setup(39, "earth (1)", false);
         setup(40, "wall (1)", true);
         setup(41, "tree (1)", true);
-
+        setup(42, "hut", false);
+        setup(43, "floor01", false);
+        setup(44, "table01", true);
+        
         System.out.println("Image loading finished");
 
     }
@@ -109,7 +113,7 @@ public class TileManager {
     }
 
     //loadMap will read a text in filePath and populate the mapTileNum matrix with what is in the file
-    public void loadMap(String filePath) {
+    public void loadMap(String filePath, int map) {
 
         try {
             //read a text file
@@ -131,7 +135,7 @@ public class TileManager {
 
                     int num = Integer.parseInt(numbers[col]);
 
-                    mapTileNum[col][row] = num;
+                    mapTileNum[map][col][row] = num;
                     col++;
                 }
                 if(col == gp.maxWorldCol) {
@@ -156,7 +160,7 @@ public class TileManager {
 
         while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
  
-            int tileNum = mapTileNum[worldCol][worldRow];
+            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
@@ -180,9 +184,6 @@ public class TileManager {
                 worldCol = 0;
                 worldRow++;
             }
-
         }
-
     }
-
 }
