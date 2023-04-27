@@ -1,6 +1,8 @@
 package main;
 
 import javax.swing.JPanel;
+
+import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
 import tile.TileManager;
@@ -61,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
 
     //Instantiate tileM class
-    TileManager tileM = new TileManager(this);
+    public TileManager tileM = new TileManager(this);
 
     //Make variable keyH with KeyHandler
     public KeyHandler keyH = new KeyHandler(this);
@@ -83,6 +85,8 @@ public class GamePanel extends JPanel implements Runnable{
     public EventHandler eHandler = new EventHandler(this);
 
     Config config = new Config(this);
+
+    public PathFinder pFinder = new PathFinder(this);
 
     //Creates a variable called gameThread that has all the functions the Thread has
     Thread gameThread;
@@ -108,6 +112,8 @@ public class GamePanel extends JPanel implements Runnable{
     public final int characterState = 4;
     public final int optionsState = 5;
     public final int gameOverState = 6;
+    public final int transitionState = 7;
+    public final int tradeState = 8;
 
     public GamePanel() {
 

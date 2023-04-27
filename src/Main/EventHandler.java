@@ -1,5 +1,7 @@
 package main;
 
+import entity.Entity;
+
 public class EventHandler {
     
     GamePanel gp;
@@ -7,6 +9,7 @@ public class EventHandler {
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+    int tempMap, tempCol, tempRow;
 
     public EventHandler(GamePanel gp) {
         this.gp = gp;
@@ -56,6 +59,7 @@ public class EventHandler {
             else if(hit(0,23,12,"up")) { /*heals you*/ healingPool(gp.dialogueState); }
             else if(hit(0,10,39,"any")) { teleport(1,12,13); }
             else if(hit(1,12,13,"any")) { teleport(0,10,39); }
+            else if(hit(1,12,9,"up")) {speak(gp.npc[1][0]);}
 
         }
 
@@ -117,13 +121,20 @@ public class EventHandler {
     }
     public void teleport(int map, int col, int row) {
 
-        gp.currentMap = map;
-        gp.player.worldX = gp.tileSize * col;
-        gp.player.worldY = gp.tileSize * row;
-        previousEventX = gp.player.worldX;
-        previousEventY = gp.player.worldY;
+        gp.gameState = gp.transitionState;
+        tempMap = map;
+        tempCol = col;
+        tempRow = row;
         canTouchEvent = false;
         gp.playSE(13);
 
+    }
+    public void speak(Entity entity) {
+
+        if(gp.keyH.enterPressed) {
+            gp.gameState = gp.dialogueState;
+            gp.player.attackCanceled = true;
+            entity.speak();
+        }
     }
 }
