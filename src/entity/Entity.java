@@ -19,7 +19,7 @@ public class Entity {
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
     public BufferedImage image, image2, image3;
-    public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public Rectangle solidArea = new Rectangle(8, 16, 30, 30);
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX, solidAreaDefaultY;
 
@@ -427,11 +427,11 @@ public class Entity {
             }
 
             // If reaches the goal, stop the search
-            int nextCol = gp.pFinder.pathList.get(0).col;
-            int nextRow = gp.pFinder.pathList.get(0).row;
-            if(nextCol == goalCol && nextRow == goalRow) {
-                onPath = false;
-            }
+            // int nextCol = gp.pFinder.pathList.get(0).col;
+            // int nextRow = gp.pFinder.pathList.get(0).row;
+            // if(nextCol == goalCol && nextRow == goalRow) {
+            //     onPath = false;
+            // }
         }
     }
 }
