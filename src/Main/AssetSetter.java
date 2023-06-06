@@ -13,6 +13,7 @@ import object.OBJ_Key;
 import object.OBJ_ManaCrystal;
 import object.OBJ_Potion_Red;
 import object.OBJ_Shield_Blue;
+import object.OBJ_Chest;
 import tile_interactive.IT_DryTree;
 
 //Makes Keys, Doors, and Chests than places them down in the map
@@ -44,6 +45,10 @@ public class AssetSetter {
         gp.obj[mapNum][i] = new OBJ_Door(gp);
         gp.obj[mapNum][i].worldX = gp.tileSize*12;
         gp.obj[mapNum][i].worldY = gp.tileSize*12;
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Chest(gp,new OBJ_Key(gp));
+        gp.obj[mapNum][i].worldX = gp.tileSize*30;
+        gp.obj[mapNum][i].worldY = gp.tileSize*29;
         i++;
 
     }

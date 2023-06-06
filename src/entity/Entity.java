@@ -489,7 +489,7 @@ public class Entity {
             if(target[gp.currentMap][i] != null) {
                 if(target[gp.currentMap][i].getCol() == col && 
                    15 == row &&
-                   target[gp.currentMap][i].name.equals(targetName)) {
+                   target[gp.currentMap][i].name.equals(targetName) || target[gp.currentMap][i].getCol() == col && 12 == row && target[gp.currentMap][i].name.equals(targetName)) {
 
                     index = i;
                     break;
