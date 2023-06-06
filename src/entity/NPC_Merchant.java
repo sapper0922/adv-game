@@ -1,6 +1,6 @@
 package entity;
 
-import main.GamePanel;
+import Main.GamePanel;
 import object.OBJ_Axe;
 import object.OBJ_Key;
 import object.OBJ_Potion_Red;

@@ -1,7 +1,7 @@
 package object;
 
 import entity.Entity;
-import main.GamePanel;
+import Main.GamePanel;
 
 public class OBJ_Shield_Blue extends Entity {
     

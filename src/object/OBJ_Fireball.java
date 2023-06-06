@@ -2,7 +2,7 @@ package object;
 
 import entity.Entity;
 import entity.Projectile;
-import main.GamePanel;
+import Main.GamePanel;
 import java.awt.Color;
 
 public class OBJ_Fireball extends Projectile{
@@ -19,6 +19,7 @@ public class OBJ_Fireball extends Projectile{
         maxLife = 80;
         life = maxLife;
         attack = 2;
+        knockBackPower = 0;
         useCost = 1;
         alive = false;
         getImage();

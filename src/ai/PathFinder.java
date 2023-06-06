@@ -3,7 +3,7 @@ package ai;
 import java.util.ArrayList;
 
 import entity.Entity;
-import main.GamePanel;
+import Main.GamePanel;
 
 // I use A* PathFinding algorithm for the pathfinder
 public class PathFinder {

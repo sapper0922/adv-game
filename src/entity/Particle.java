@@ -1,6 +1,6 @@
 package entity;
 
-import main.GamePanel;
+import Main.GamePanel;
 import java.awt.Color;
 import java.awt.Graphics2D;
 

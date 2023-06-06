@@ -7,8 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
-import main.GamePanel;
-import main.UtilityTool;
+import Main.GamePanel;
+import Main.UtilityTool;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

@@ -1,6 +1,6 @@
 package entity;
 
-import main.GamePanel;
+import Main.GamePanel;
 
 public class Projectile extends Entity{
 
@@ -25,7 +25,7 @@ public class Projectile extends Entity{
         if(user == gp.player) {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if(monsterIndex != 999) {
-                gp.player.damageMonster(monsterIndex, attack);
+                gp.player.damageMonster(monsterIndex, attack, knockBackPower);
                 generateParticle(user.projectile,gp.monster[gp.currentMap][monsterIndex]);
                 alive = false;
             }

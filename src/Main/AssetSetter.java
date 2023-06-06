@@ -1,4 +1,4 @@
-package main;
+package Main;
 
 import entity.NPC_Merchant;
 import entity.NPC_OldMan;
@@ -29,14 +29,6 @@ public class AssetSetter {
 
         int mapNum = 0;
         int i = 0;
-        gp.obj[mapNum][i] = new OBJ_Coin_Bronze(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*23;
-        gp.obj[mapNum][i].worldY = gp.tileSize*22;
-        i++;
-        gp.obj[mapNum][i] = new OBJ_Key(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*24;
-        gp.obj[mapNum][i].worldY = gp.tileSize*22;
-        i++;
         gp.obj[mapNum][i] = new OBJ_Axe(gp);
         gp.obj[mapNum][i].worldX = gp.tileSize*35;
         gp.obj[mapNum][i].worldY = gp.tileSize*21;
@@ -45,17 +37,13 @@ public class AssetSetter {
         gp.obj[mapNum][i].worldX = gp.tileSize*36;
         gp.obj[mapNum][i].worldY = gp.tileSize*21;
         i++;
-        gp.obj[mapNum][i] = new OBJ_Potion_Red(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*23;
-        gp.obj[mapNum][i].worldY = gp.tileSize*26;
+        gp.obj[mapNum][i] = new OBJ_Door(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize*14;
+        gp.obj[mapNum][i].worldY = gp.tileSize*28;
         i++;
-        gp.obj[mapNum][i] = new OBJ_Heart(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*36;
-        gp.obj[mapNum][i].worldY = gp.tileSize*22;
-        i++;
-        gp.obj[mapNum][i] = new OBJ_ManaCrystal(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*23;
-        gp.obj[mapNum][i].worldY = gp.tileSize*23;
+        gp.obj[mapNum][i] = new OBJ_Door(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize*12;
+        gp.obj[mapNum][i].worldY = gp.tileSize*12;
         i++;
 
     }

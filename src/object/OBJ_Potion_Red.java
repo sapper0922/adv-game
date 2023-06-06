@@ -1,7 +1,7 @@
 package object;
 
 import entity.Entity;
-import main.GamePanel;
+import Main.GamePanel;
 
 public class OBJ_Potion_Red extends Entity {
 
@@ -19,13 +19,14 @@ public class OBJ_Potion_Red extends Entity {
         description = "[Red Potion]\nHeals you life by" + value + ".";
         price = 25;
     }
-    public void use(Entity entity) {
+    public boolean use(Entity entity) {
         gp.playSE(2);
         gp.gameState = gp.dialogueState;
         gp.ui.currentDialogue = "You drink the " + name + "!\n" + "Your life has been recovered" + value + ".";
         entity.life += value;
         if(gp.player.life > gp.player.maxLife) {
             gp.player.life = gp.player.maxLife;
-        } 
+        }
+        return true;
     }
 }

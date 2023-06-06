@@ -4,8 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import main.GamePanel;
-import main.KeyHandler;      
+import Main.GamePanel;
+import Main.KeyHandler;      
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
 import java.awt.AlphaComposite;
@@ -64,9 +64,10 @@ public class Player extends Entity{
         // worldX = gp.tileSize * 12;
         // worldY = gp.tileSize * 12;
         // gp.currentMap = 1;
+        defaultSpeed = 4;
 
         //how fast the player character moves in pixels
-        speed = 4;
+        speed = defaultSpeed;
 
         //direction the player is facing
         direction = "down";
@@ -254,8 +255,13 @@ public class Player extends Entity{
             // Subtract the cost (Mana, Ammo, ETC.)
             projectile.subtractResource(this);
 
-            // Add it to the list
-            gp.projectileList.add(projectile);
+            // Check Vacancy
+            for(int i = 0; i < gp.projectile[1].length; i++) {
+                if(gp.projectile[gp.currentMap][i] == null) {
+                    gp.projectile[gp.currentMap][i] = projectile;
+                    break;
+                }
+            }
 
             shotAvailableCounter = 0;
 
@@ -317,10 +323,13 @@ public class Player extends Entity{
 
             //Check monster collision with the updated worldX, worldY, and solidArea
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-            damageMonster(monsterIndex, attack);
+            damageMonster(monsterIndex, attack, currentWeapon.knockBackPower);
 
             int iTileIndex = gp.cChecker.checkEntity(this,gp.iTile);
             damageInteractiveTile(iTileIndex);
+
+            int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+            damageProjectile(projectileIndex);
 
             //After checking collision, restores the original data
             worldX = currentWorldX;
@@ -345,7 +354,13 @@ public class Player extends Entity{
                 gp.obj[gp.currentMap][i].use(this);
                 gp.obj[gp.currentMap][i] = null;
             }
-
+            // Obstacle
+            else if(gp.obj[gp.currentMap][i].type == type_obstacle) {
+                if(keyH.enterPressed) {
+                    attackCanceled = true;
+                    gp.obj[gp.currentMap][i].interact();
+                }
+            }
             // Inventory items
             else {
                 String text;
@@ -396,11 +411,16 @@ public class Player extends Entity{
         }
     }
 
-    public void damageMonster(int i, int attack) {
+    public void damageMonster(int i, int attack, int knockBackPower) {
 
         if(i != 999) {
             if(!gp.monster[gp.currentMap][i].invincible) {
                 gp.playSE(5);
+
+                if(knockBackPower > 0) {
+                    knockBack(gp.monster[gp.currentMap][i], knockBackPower);
+                }
+                knockBack(gp.monster[gp.currentMap][i], knockBackPower);
 
                 //Setting damage variable which controls how much life to take away depending on attack and defence
                 int damage = attack - gp.monster[gp.currentMap][i].defence;
@@ -423,6 +443,13 @@ public class Player extends Entity{
             }
         }
     }
+    public void knockBack(Entity entity, int knockBackPower) {
+
+        entity.direction = direction;
+        entity.speed += knockBackPower;
+        entity.knockBack = true;
+
+    }
     public void damageInteractiveTile(int i) {
 
         if(i != 999 && gp.iTile[gp.currentMap][i].destructible && gp.iTile[gp.currentMap][i].isCorrectItem(this) && !gp.iTile[gp.currentMap][i].invincible) {
@@ -438,6 +465,14 @@ public class Player extends Entity{
                 gp.iTile[gp.currentMap][i] = gp.iTile[gp.currentMap][i].getDestroyedForm();
 
             }
+        }
+    }
+    public void damageProjectile(int i) {
+
+        if(i != 999) {
+            Entity projectile = gp.projectile[gp.currentMap][i];
+            projectile.alive = false;
+            generateParticle(projectile,projectile);
         }
     }
     public void checkLevelUp() {
@@ -476,8 +511,9 @@ public class Player extends Entity{
                 defence = getDefence();
             }
             if(selectedItem.type == type_consumable) {
-                selectedItem.use(this);
-                inventory.remove(itemIndex);
+                if(selectedItem.use(this)) {
+                    inventory.remove(itemIndex);
+                }
             }
         }
     }
